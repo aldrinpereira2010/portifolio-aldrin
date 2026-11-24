@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  SITE PESSOAL — index.html
+  ---------------------------------------------------------------------
+  Como personalizar rapidamente:
+  1. Textos: procure pelos comentários "EDITE" ao longo deste arquivo.
+  2. Fotos: coloque seus arquivos em assets/img/ com os nomes indicados
+     (perfil.jpg, sobre-mim.jpg, academia.jpg ...). Enquanto um arquivo
+     não existir, o site mostra automaticamente um placeholder bonito
+     com o nome exato do arquivo esperado.
+  3. Links de contato e redes sociais: edite o objeto PERFIL no topo
+     de js/script.js (um único lugar para todos os links).
+  =====================================================================
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- EDITE: título e descrição que aparecem no Google e nas redes -->
+  <title>Alderlan — treino, código e boa música</title>
+  <meta name="description" content="Site pessoal de Alderlan: quem eu sou, meus hobbies, a tecnologia que estudo, momentos que guardo e um pouco da minha personalidade.">
+  <meta name="theme-color" content="#F3EEE4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15130F" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph (pré-visualização ao compartilhar o link) -->
+  <meta property="og:title" content="Alderlan — treino, código e boa música">
+  <meta property="og:description" content="Um cantinho na internet para me conhecer além do currículo.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon em SVG (a letra inicial + ponto laranja) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%231D1A16'/%3E%3Ctext x='14' y='46' font-family='Georgia,serif' font-size='40' font-style='italic' fill='%23F3EEE4'%3Ea%3C/text%3E%3Ccircle cx='47' cy='42' r='6' fill='%23E2552B'/%3E%3C/svg%3E">
+
+  <!-- Fontes: Bricolage Grotesque (títulos e texto), Instrument Serif (detalhes em itálico), JetBrains Mono (rótulos e código) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!--
+    Aplica o tema salvo (claro/escuro) ANTES da página ser desenhada,
+    evitando o "piscar" de tema errado. É o único trecho de JS inline.
+  -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('tema');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
+        document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.classList.add('js');
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+
+<body>
+  <!-- Link de acessibilidade: pula direto para o conteúdo -->
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- Barra fina de progresso de leitura (topo da página) -->
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+  <!-- Textura de granulado sobre a página (puramente decorativa) -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       ÍCONES SVG (sprite) — reutilizados com <use href="#i-nome">
+       ========================================================= -->
+  <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></symbol>
+      <symbol id="i-run" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+      <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+      <symbol id="i-game" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></symbol>
+      <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h16"/></symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4zM17.5 6.5h.01"/></symbol>
+      <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/></symbol>
+      <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+      <symbol id="i-food" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol>
+      <symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6M12 19h8"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+      <symbol id="i-moonstar" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4M17 5h4"/></symbol>
+      <symbol id="i-flip" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- =========================================================
+       CABEÇALHO / NAVEGAÇÃO
+       ========================================================= -->
+  <header class="header" id="topo">
+    <nav class="nav container" aria-label="Navegação principal">
+      <!-- EDITE: seu nome/apelido no logo -->
+      <a class="nav__logo" href="#inicio" aria-label="Voltar ao início">alderlan<span>.</span></a>
+
+      <ul class="nav__links" id="menu-principal">
+        <li><a href="#inicio" class="nav__link">Início</a></li>
+        <li><a href="#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="#hobbies" class="nav__link">Hobbies</a></li>
+        <li><a href="#tecnologia" class="nav__link">Tech</a></li>
+        <li><a href="#galeria" class="nav__link">Galeria</a></li>
+        <li><a href="#curiosidades" class="nav__link">Curiosidades</a></li>
+        <li><a href="#contato" class="nav__link nav__link--cta">Contato</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <!-- Alternância de tema claro/escuro -->
+        <button class="icon-btn theme-toggle" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+          <svg class="icon icon--sun"><use href="#i-sun"/></svg>
+          <svg class="icon icon--moon"><use href="#i-moon"/></svg>
+        </button>
+
+        <!-- Botão do menu mobile -->
+        <button class="icon-btn nav__toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal">
+          <span class="burger" aria-hidden="true"><span></span><span></span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- =========================================================
+         01 — HOME / HERO
+         ========================================================= -->
+    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+      <div class="hero__bg" aria-hidden="true">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+      </div>
+
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <p class="eyebrow hero__eyebrow load-in" style="--d:1">
+            <span class="status-dot" aria-hidden="true"></span>
+            Olá! Que bom ter você por aqui
+          </p>
+
+          <!-- EDITE: seu nome em destaque -->
+          <h1 class="hero__title" id="hero-titulo">
+            <span class="hero__line load-in" style="--d:2">Eu sou</span>
+            <span class="hero__name load-in" style="--d:3">Alderlan<span class="accent-dot">.</span></span>
+          </h1>
+
+          <!-- EDITE: frase criativa que representa sua personalidade -->
+          <p class="hero__quote load-in" style="--d:4">
+            Metade <em>disciplina</em>, metade <em>curiosidade</em> — e sempre com uma trilha sonora tocando ao fundo.
+          </p>
+
+          <!-- EDITE: breve introdução -->
+          <p class="hero__intro load-in" style="--d:5">
+            Divido meus dias entre a academia, as corridas, o código e uma boa playlist. Gosto de entender como as coisas funcionam, de evoluir um pouquinho a cada dia e de transformar ideias em algo real.
+          </p>
+
+          <!-- Frase rotativa: as opções ficam em data-words (separadas por |) -->
+          <p class="hero__now load-in" style="--d:6">
+            <span class="mono">agora, provavelmente estou</span>
+            <span class="rotator" data-words="levantando peso|resolvendo um bug|descobrindo uma banda nova|correndo mais 5 km|numa partida ranqueada|estudando algo novo">levantando peso</span>
+          </p>
+
+          <div class="hero__cta load-in" style="--d:7">
+            <a href="#sobre" class="btn btn--primary">
+              Conhecer mais sobre mim
+              <svg class="icon"><use href="#i-arrow-down"/></svg>
+            </a>
+            <a href="#contato" class="btn btn--ghost">Vamos conversar</a>
+          </div>
+        </div>
+
+        <!-- Foto de perfil em destaque — arquivo: assets/img/perfil.jpg -->
+        <div class="hero__visual load-in" style="--d:4">
+          <figure class="photo photo--arch hero__photo" data-label="Sua foto de perfil">
+            <img src="assets/img/perfil.jpg" alt="Foto de perfil de Alderlan" width="640" height="800">
+          </figure>
+
+          <!-- Selo giratório com texto circular -->
+          <div class="spin-badge" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <defs><path id="circulo" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+              <text><textPath href="#circulo">treino • código • música • jogos • corrida •</textPath></text>
+            </svg>
+            <span class="spin-badge__core"><svg class="icon"><use href="#i-star"/></svg></span>
+          </div>
+
+          <!-- Adesivos flutuantes -->
+          <span class="sticker sticker--a" aria-hidden="true">+ café</span>
+          <span class="sticker sticker--b" aria-hidden="true">&lt;/dev&gt;</span>
+        </div>
+      </div>
+
+      <a href="#sobre" class="scroll-cue" aria-label="Rolar para a seção Sobre">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- Faixa animada com interesses (marquee) -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Academia</span><i></i><span>Corrida</span><i></i><span>Programação</span><i></i><span>Música</span><i></i><span>Games</span><i></i><span>Café</span><i></i><span>Aprender sempre</span><i></i>
+        <span>Academia</span><i></i><span>Corrida</span><i></i><span>Programação</span><i></i><span>Música</span><i></i><span>Games</span><i></i><span>Café</span><i></i><span>Aprender sempre</span><i></i>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         02 — SOBRE MIM
+         ========================================================= -->
+    <section class="section about" id="sobre" aria-labelledby="sobre-titulo">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">01</span>
+          <h2 class="section__title" id="sobre-titulo">Prazer, <em>esse sou eu</em></h2>
+        </header>
+
+        <div class="about__grid">
+          <!-- Foto pessoal — arquivo: assets/img/sobre-mim.jpg -->
+          <div class="about__media reveal" style="--d:1">
+            <figure class="photo photo--polaroid" data-label="Uma foto sua espontânea">
+              <img src="assets/img/sobre-mim.jpg" alt="Foto pessoal de Alderlan" loading="lazy" width="600" height="720">
+              <figcaption>eu, sendo eu</figcaption>
+            </figure>
+            <span class="tape tape--1" aria-hidden="true"></span>
+            <span class="tape tape--2" aria-hidden="true"></span>
+          </div>
+
+          <div class="about__content">
+            <!-- EDITE: sua história, em tom natural -->
+            <p class="about__lead reveal" style="--d:1">
+              Não sou uma pessoa de uma coisa só — e acho que é justamente isso que torna a vida interessante.
+            </p>
+            <div class="about__text reveal" style="--d:2">
+              <p>
+                Minha história é feita de fases: teve a fase de passar horas em jogos, a fase de descobrir que dava para <strong>criar</strong> as coisas que eu usava no computador, e a fase em que entendi que cuidar do corpo também é cuidar da cabeça.
+              </p>
+              <p>
+                Hoje tento equilibrar tudo isso. De manhã pode ser treino, à tarde estudo, à noite um projeto pessoal com fone no ouvido. Tenho um lado competitivo (principalmente comigo), mas levo a vida com leveza e bom humor.
+              </p>
+            </div>
+
+            <!-- Características (tags) -->
+            <ul class="traits reveal" style="--d:3" aria-label="Características">
+              <li>Curiosidade sem fim</li>
+              <li>Disciplina de treino</li>
+              <li>Bom humor</li>
+              <li>Foco quando importa</li>
+              <li>Aprender fazendo</li>
+              <li>Playlist para tudo</li>
+            </ul>
+
+            <!-- Fatos rápidos — EDITE os valores -->
+            <dl class="facts reveal" style="--d:4">
+              <div><dt><svg class="icon"><use href="#i-pin"/></svg>Base</dt><dd>Sua cidade, Brasil</dd></div>
+              <div><dt><svg class="icon"><use href="#i-coffee"/></svg>Combustível</dt><dd>Café e música</dd></div>
+              <div><dt><svg class="icon"><use href="#i-target"/></svg>Foco atual</dt><dd>Evoluir como dev</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Linha do tempo — EDITE os marcos da sua história -->
+        <ol class="timeline" aria-label="Minha trajetória">
+          <li class="timeline__item reveal" style="--d:1">
+            <span class="timeline__tag mono">o começo</span>
+            <h3>Joystick na mão</h3>
+            <p>Foi nos jogos que nasceu a curiosidade de entender o que acontecia por trás da tela.</p>
+          </li>
+          <li class="timeline__item reveal" style="--d:2">
+            <span class="timeline__tag mono">primeiro código</span>
+            <h3>O tal "Hello, World"</h3>
+            <p>A primeira linha que funcionou (depois de muitas que não) e a sensação de criar algo do zero.</p>
+          </li>
+          <li class="timeline__item reveal" style="--d:3">
+            <span class="timeline__tag mono">a virada</span>
+            <h3>Academia como rotina</h3>
+            <p>O treino virou hábito e trouxe uma lição para tudo: constância vale mais que intensidade.</p>
+          </li>
+          <li class="timeline__item reveal" style="--d:4">
+            <span class="timeline__tag mono">agora</span>
+            <h3>Construindo o próximo passo</h3>
+            <p>Estudando, criando projetos e me preparando para crescer na área de tecnologia.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         03 — HOBBIES
+         Para adicionar um hobby: copie um <article class="hobby">,
+         troque a imagem, o ícone, o título e a descrição.
+         ========================================================= -->
+    <section class="section hobbies" id="hobbies" aria-labelledby="hobbies-titulo">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">02</span>
+          <h2 class="section__title" id="hobbies-titulo">O que me <em>move</em></h2>
+          <p class="section__sub">As coisas que ocupam meu tempo livre (e boa parte da minha cabeça).</p>
+        </header>
+
+        <div class="hobbies__grid">
+          <!-- Hobby: Musculação — assets/img/academia.jpg -->
+          <article class="hobby hobby--xl tilt reveal" style="--d:1">
+            <figure class="photo hobby__photo" data-label="Foto na academia">
+              <img src="assets/img/academia.jpg" alt="Treino na academia" loading="lazy">
+            </figure>
+            <div class="hobby__body">
+              <span class="hobby__icon"><svg class="icon"><use href="#i-dumbbell"/></svg></span>
+              <h3 class="hobby__title">Musculação &amp; academia</h3>
+              <p class="hobby__desc">Meu momento de desligar o mundo. Treinar me ensinou paciência, rotina e que todo progresso começa pequeno.</p>
+            </div>
+            <span class="hobby__index mono">01</span>
+          </article>
+
+          <!-- Hobby: Corrida — assets/img/corrida.jpg -->
+          <article class="hobby tilt reveal" style="--d:2">
+            <figure class="photo hobby__photo" data-label="Foto correndo">
+              <img src="assets/img/corrida.jpg" alt="Corrida ao ar livre" loading="lazy">
+            </figure>
+            <div class="hobby__body">
+              <span class="hobby__icon"><svg class="icon"><use href="#i-run"/></svg></span>
+              <h3 class="hobby__title">Corrida &amp; movimento</h3>
+              <p class="hobby__desc">Tênis no pé, fone no ouvido e a cabeça organizando as ideias a cada quilômetro.</p>
+            </div>
+            <span class="hobby__index mono">02</span>
+          </article>
+
+          <!-- Hobby: Tecnologia — assets/img/tecnologia.jpg -->
+          <article class="hobby tilt reveal" style="--d:3">
+            <figure class="photo hobby__photo" data-label="Seu setup ou você programando">
+              <img src="assets/img/tecnologia.jpg" alt="Setup de programação" loading="lazy">
+            </figure>
+            <div class="hobby__body">
+              <span class="hobby__icon"><svg class="icon"><use href="#i-code"/></svg></span>
+              <h3 class="hobby__title">Tecnologia &amp; programação</h3>
+              <p class="hobby__desc">Gosto de quebrar a cabeça com um problema até ele virar código funcionando.</p>
+            </div>
+            <span class="hobby__index mono">03</span>
+          </article>
+
+          <!-- Hobby: Música — assets/img/musica.jpg -->
+          <article class="hobby tilt reveal" style="--d:1">
+            <figure class="photo hobby__photo" data-label="Algo que represente sua música">
+              <img src="assets/img/musica.jpg" alt="Música" loading="lazy">
+            </figure>
+            <div class="hobby__body">
+              <span class="hobby__icon"><svg class="icon"><use href="#i-music"/></svg></span>
+              <h3 class="hobby__title">Música</h3>
+              <p class="hobby__desc">Tem playlist para treinar, para focar, para relaxar… e para cantar alto quando ninguém está ouvindo.</p>
+            </div>
+            <span class="hobby__index mono">04</span>
+          </article>
+
+          <!-- Hobby: Jogos — assets/img/jogos.jpg -->
+          <article class="hobby tilt reveal" style="--d:2">
+            <figure class="photo hobby__photo" data-label="Seus jogos favoritos">
+              <img src="assets/img/jogos.jpg" alt="Jogos e entretenimento" loading="lazy">
+            </figure>
+            <div class="hobby__body">
+              <span class="hobby__icon"><svg class="icon"><use href="#i-game"/></svg></span>
+              <h3 class="hobby__title">Jogos &amp; entretenimento</h3>
+              <p class="hobby__desc">Uma boa partida com amigos, uma série nova ou aquele filme que todo mundo já viu (menos eu).</p>
+            </div>
+            <span class="hobby__index mono">05</span>
+          </article>
+
+          <!-- Hobby: Outros interesses — assets/img/outros-interesses.jpg -->
+          <article class="hobby hobby--open tilt reveal" style="--d:3">
+            <figure class="photo hobby__photo" data-label="Seu próximo interesse">
+              <img src="assets/img/outros-interesses.jpg" alt="Outros interesses" loading="lazy">
+            </figure>
+            <div class="hobby__body">
+              <span class="hobby__icon"><svg class="icon"><use href="#i-plus"/></svg></span>
+              <h3 class="hobby__title">Próxima obsessão</h3>
+              <p class="hobby__desc">Viagens, culinária, fotografia… sempre tem espaço para um novo interesse entrar nessa lista.</p>
+            </div>
+            <span class="hobby__index mono">06</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         04 — TECNOLOGIA & ESTUDOS
+         ========================================================= -->
+    <section class="section tech" id="tecnologia" aria-labelledby="tech-titulo">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">03</span>
+          <h2 class="section__title" id="tech-titulo">Código, <em>café</em> e curiosidade</h2>
+          <p class="section__sub">Tecnologia é mais que estudo para mim: é onde eu gosto de construir coisas. Clique em uma linguagem para ver um trechinho.</p>
+        </header>
+
+        <div class="tech__grid">
+          <div class="tech__intro reveal" style="--d:1">
+            <!-- EDITE: seu interesse pela área -->
+            <p>
+              Comecei pela curiosidade e fiquei pela sensação de ver algo que eu escrevi ganhar vida. Hoje estudo desenvolvimento de software com foco em <strong>lógica, back-end e web</strong>, sempre tentando entender o porquê das coisas, e não só o como.
+            </p>
+
+            <!-- Linguagens: cada botão troca o código exibido na janela ao lado (ver js/script.js → TRECHOS) -->
+            <div class="langs" role="tablist" aria-label="Linguagens que conheço">
+              <button class="lang is-active" role="tab" aria-selected="true" data-lang="c">C</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="python">Python</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="java">Java</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="html">HTML</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="css">CSS</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="php">PHP</button>
+              <button class="lang" role="tab" aria-selected="false" data-lang="sql">SQL</button>
+            </div>
+            <p class="lang-note" aria-live="polite"></p>
+          </div>
+
+          <!-- Janela de código (conteúdo gerado pelo JS) -->
+          <div class="code-window reveal" style="--d:2" role="tabpanel" aria-label="Exemplo de código">
+            <div class="code-window__bar">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="code-window__file mono">main.c</span>
+              <svg class="icon" aria-hidden="true"><use href="#i-terminal"/></svg>
+            </div>
+            <pre class="code-window__body"><code></code></pre>
+          </div>
+        </div>
+
+        <!-- Projetos — EDITE títulos, descrições e tags.
+             Capturas de tela: assets/img/projeto-01.jpg, projeto-02.jpg, projeto-03.jpg -->
+        <h3 class="subhead reveal">Projetos <em>acadêmicos &amp; pessoais</em></h3>
+
+        <div class="projects">
+          <article class="project reveal" style="--d:1">
+            <figure class="photo project__shot" data-label="Captura de tela do projeto">
+              <img src="assets/img/projeto-01.jpg" alt="Captura de tela do Sistema de Biblioteca" loading="lazy">
+            </figure>
+            <div class="project__body">
+              <span class="badge">Acadêmico</span>
+              <h4 class="project__title">Sistema de biblioteca</h4>
+              <p>Cadastro de livros, empréstimos e devoluções com orientação a objetos e banco de dados relacional.</p>
+              <ul class="project__stack"><li>Java</li><li>SQL</li></ul>
+            </div>
+          </article>
+
+          <article class="project reveal" style="--d:2">
+            <figure class="photo project__shot" data-label="Captura de tela do projeto">
+              <img src="assets/img/projeto-02.jpg" alt="Captura de tela do registro de treinos" loading="lazy">
+            </figure>
+            <div class="project__body">
+              <span class="badge badge--alt">Pessoal</span>
+              <h4 class="project__title">Registro de treinos</h4>
+              <p>Uma ferramenta simples para anotar cargas, séries e acompanhar a evolução na academia.</p>
+              <ul class="project__stack"><li>Python</li><li>SQL</li></ul>
+            </div>
+          </article>
+
+          <article class="project reveal" style="--d:3">
+            <figure class="photo project__shot" data-label="Captura de tela do projeto">
+              <img src="assets/img/projeto-03.jpg" alt="Captura de tela deste site pessoal" loading="lazy">
+            </figure>
+            <div class="project__body">
+              <span class="badge badge--alt">Pessoal</span>
+              <h4 class="project__title">Este site</h4>
+              <p>Feito do zero com HTML, CSS e JavaScript puro — tema escuro, galeria, animações e tudo mais.</p>
+              <ul class="project__stack"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+            </div>
+          </article>
+
+          <!-- Card que leva ao GitHub (link definido em js/script.js → PERFIL.github) -->
+          <a class="project project--more reveal" style="--d:4" data-link="github" href="https://github.com/" target="_blank" rel="noopener">
+            <svg class="icon"><use href="#i-github"/></svg>
+            <span>Ver mais projetos<br>no GitHub</span>
+            <svg class="icon project--more__arrow"><use href="#i-arrow-ur"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         05 — GALERIA DE MOMENTOS
+         Cada item: data-category (viagens | academia | amigos | experiencias)
+         e uma classe de tamanho opcional: g--tall, g--wide ou g--big.
+         Fotos: assets/img/galeria-01.jpg ... galeria-12.jpg
+         ========================================================= -->
+    <section class="section gallery" id="galeria" aria-labelledby="galeria-titulo">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">04</span>
+          <h2 class="section__title" id="galeria-titulo">Galeria de <em>momentos</em></h2>
+          <p class="section__sub">Recortes de dias bons. Clique em qualquer foto para ampliar.</p>
+        </header>
+
+        <div class="filters reveal" role="group" aria-label="Filtrar galeria">
+          <button class="filter is-active" data-filter="todos" aria-pressed="true">Todos</button>
+          <button class="filter" data-filter="viagens" aria-pressed="false">Viagens</button>
+          <button class="filter" data-filter="academia" aria-pressed="false">Academia</button>
+          <button class="filter" data-filter="amigos" aria-pressed="false">Amigos</button>
+          <button class="filter" data-filter="experiencias" aria-pressed="false">Experiências</button>
+        </div>
+
+        <!-- EDITE as legendas (data-caption) de cada foto -->
+        <div class="masonry">
+          <button class="g-item g--big" data-category="viagens" data-caption="Aquela viagem que eu repetiria amanhã">
+            <figure class="photo" data-label="Foto de viagem"><img src="assets/img/galeria-01.jpg" alt="Momento de viagem" loading="lazy"></figure>
+            <span class="g-item__cap">Viagens</span>
+          </button>
+          <button class="g-item g--tall" data-category="academia" data-caption="Dia de treino pesado">
+            <figure class="photo" data-label="Foto na academia"><img src="assets/img/galeria-02.jpg" alt="Dia de treino" loading="lazy"></figure>
+            <span class="g-item__cap">Academia</span>
+          </button>
+          <button class="g-item" data-category="amigos" data-caption="Gente boa, risada garantida">
+            <figure class="photo" data-label="Foto com amigos"><img src="assets/img/galeria-03.jpg" alt="Momento com amigos" loading="lazy"></figure>
+            <span class="g-item__cap">Amigos</span>
+          </button>
+          <button class="g-item" data-category="experiencias" data-caption="Primeira vez fazendo algo novo">
+            <figure class="photo" data-label="Uma experiência marcante"><img src="assets/img/galeria-04.jpg" alt="Experiência marcante" loading="lazy"></figure>
+            <span class="g-item__cap">Experiências</span>
+          </button>
+          <button class="g-item g--wide" data-category="viagens" data-caption="Paisagem que não cabe na foto">
+            <figure class="photo" data-label="Paisagem favorita"><img src="assets/img/galeria-05.jpg" alt="Paisagem de viagem" loading="lazy"></figure>
+            <span class="g-item__cap">Viagens</span>
+          </button>
+          <button class="g-item g--tall" data-category="experiencias" data-caption="Corrida de rua: missão cumprida">
+            <figure class="photo" data-label="Corrida ou evento"><img src="assets/img/galeria-06.jpg" alt="Corrida de rua" loading="lazy"></figure>
+            <span class="g-item__cap">Experiências</span>
+          </button>
+          <button class="g-item" data-category="academia" data-caption="Pós-treino com sensação de dever cumprido">
+            <figure class="photo" data-label="Pós-treino"><img src="assets/img/galeria-07.jpg" alt="Pós-treino" loading="lazy"></figure>
+            <span class="g-item__cap">Academia</span>
+          </button>
+          <button class="g-item g--wide" data-category="amigos" data-caption="A turma reunida">
+            <figure class="photo" data-label="Foto em grupo"><img src="assets/img/galeria-08.jpg" alt="Turma reunida" loading="lazy"></figure>
+            <span class="g-item__cap">Amigos</span>
+          </button>
+          <button class="g-item" data-category="viagens" data-caption="Um lugar novo no mapa">
+            <figure class="photo" data-label="Lugar novo"><img src="assets/img/galeria-09.jpg" alt="Lugar novo" loading="lazy"></figure>
+            <span class="g-item__cap">Viagens</span>
+          </button>
+          <button class="g-item g--tall" data-category="experiencias" data-caption="Show inesquecível">
+            <figure class="photo" data-label="Show ou evento"><img src="assets/img/galeria-10.jpg" alt="Show" loading="lazy"></figure>
+            <span class="g-item__cap">Experiências</span>
+          </button>
+          <button class="g-item" data-category="amigos" data-caption="Noite de jogos com a galera">
+            <figure class="photo" data-label="Noite de jogos"><img src="assets/img/galeria-11.jpg" alt="Noite de jogos" loading="lazy"></figure>
+            <span class="g-item__cap">Amigos</span>
+          </button>
+          <button class="g-item" data-category="academia" data-caption="Evolução registrada">
+            <figure class="photo" data-label="Registro de evolução"><img src="assets/img/galeria-12.jpg" alt="Registro de evolução" loading="lazy"></figure>
+            <span class="g-item__cap">Academia</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         06 — CURIOSIDADES
+         Cards que viram ao clicar: frente = pergunta, verso = resposta.
+         EDITE as perguntas e respostas.
+         ========================================================= -->
+    <section class="section trivia" id="curiosidades" aria-labelledby="curio-titulo">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__num">05</span>
+          <h2 class="section__title" id="curio-titulo">Curiosidades <em>sobre mim</em></h2>
+          <p class="section__sub">Pequenos fatos que não cabem num currículo. Toque nos cards para descobrir.</p>
+        </header>
+
+        <div class="trivia__grid">
+          <button class="flip reveal" style="--d:1" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-coffee"/></svg>
+                <span class="flip__q">Café ou chá?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Café. Sem discussão. De preferência antes de qualquer linha de código.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:2" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-moonstar"/></svg>
+                <span class="flip__q">Manhã ou madrugada?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Treino de manhã, código de madrugada. O cérebro funciona melhor quando o mundo está em silêncio.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:3" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-headphones"/></svg>
+                <span class="flip__q">Trilha sonora do treino?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Depende do dia: rock pesado para treino de perna, lo-fi para focar nos estudos.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:4" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-food"/></svg>
+                <span class="flip__q">Comida favorita?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Um bom churrasco no fim de semana. Dieta também precisa de folga.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:1" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-game"/></svg>
+                <span class="flip__q">Jogo que marcou a infância?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Aquele que eu zerei tantas vezes que sei os atalhos de cor até hoje.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:2" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-terminal"/></svg>
+                <span class="flip__q">Mania de dev?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Tema escuro em tudo. Inclusive neste site — experimente o botão lá em cima.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:3" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-plane"/></svg>
+                <span class="flip__q">Viagem dos sonhos?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Um lugar com montanhas para correr de manhã e uma cidade grande para explorar à noite.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip reveal" style="--d:4" aria-pressed="false">
+            <span class="flip__inner">
+              <span class="flip__face flip__front">
+                <svg class="icon flip__icon"><use href="#i-book"/></svg>
+                <span class="flip__q">Meta para este ano?</span>
+                <span class="flip__hint mono"><svg class="icon"><use href="#i-flip"/></svg>virar</span>
+              </span>
+              <span class="flip__face flip__back">
+                <span class="flip__a">Terminar um projeto pessoal completo, bater um novo recorde na corrida e aprender algo totalmente fora da minha área.</span>
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         07 — CONTATO
+         Os endereços são preenchidos pelo JS a partir do objeto
+         PERFIL em js/script.js. Edite lá.
+         ========================================================= -->
+    <section class="section contact" id="contato" aria-labelledby="contato-titulo">
+      <div class="container contact__inner">
+        <p class="eyebrow reveal">Fim da página, começo da conversa</p>
+        <h2 class="contact__title reveal" id="contato-titulo" style="--d:1">
+          Bora <em>trocar</em><br>uma ideia?
+        </h2>
+        <!-- EDITE: mensagem de encerramento -->
+        <p class="contact__text reveal" style="--d:2">
+          Valeu por chegar até aqui. Se você curte treino, tecnologia, música ou só quer dizer um oi, me chama — eu sempre respondo.
+        </p>
+
+        <ul class="socials">
+          <li class="reveal" style="--d:1">
+            <a class="social" data-link="instagram" href="https://instagram.com/" target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-instagram"/></svg>
+              <span class="social__name">Instagram</span>
+              <span class="social__handle mono" data-handle="instagram">@seu.usuario</span>
+              <svg class="icon social__arrow"><use href="#i-arrow-ur"/></svg>
+            </a>
+          </li>
+          <li class="reveal" style="--d:2">
+            <a class="social" data-link="linkedin" href="https://linkedin.com/" target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-linkedin"/></svg>
+              <span class="social__name">LinkedIn</span>
+              <span class="social__handle mono" data-handle="linkedin">/in/seu-usuario</span>
+              <svg class="icon social__arrow"><use href="#i-arrow-ur"/></svg>
+            </a>
+          </li>
+          <li class="reveal" style="--d:3">
+            <a class="social" data-link="github" href="https://github.com/" target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-github"/></svg>
+              <span class="social__name">GitHub</span>
+              <span class="social__handle mono" data-handle="github">@seu-usuario</span>
+              <svg class="icon social__arrow"><use href="#i-arrow-ur"/></svg>
+            </a>
+          </li>
+          <li class="reveal" style="--d:4">
+            <div class="social social--mail">
+              <a class="social__mainlink" data-link="email" href="mailto:seuemail@exemplo.com">
+                <svg class="icon"><use href="#i-mail"/></svg>
+                <span class="social__name">E-mail</span>
+                <span class="social__handle mono" data-handle="email">seuemail@exemplo.com</span>
+              </a>
+              <!-- Copia o e-mail para a área de transferência -->
+              <button class="icon-btn copy-email" type="button" aria-label="Copiar e-mail" title="Copiar e-mail">
+                <svg class="icon"><use href="#i-copy"/></svg>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       RODAPÉ
+       ========================================================= -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__sign">alderlan<span>.</span></p>
+      <p class="mono">Feito à mão com HTML, CSS &amp; JS puro · <span class="ano-atual">2026</span></p>
+      <a href="#inicio" class="footer__top">Voltar ao topo <svg class="icon"><use href="#i-arrow-up"/></svg></a>
+    </div>
+  </footer>
+
+  <!-- Botão flutuante para voltar ao topo -->
+  <button class="back-to-top icon-btn" type="button" aria-label="Voltar ao topo">
+    <svg class="icon"><use href="#i-arrow-up"/></svg>
+  </button>
+
+  <!-- Aviso rápido (toast) — usado ao copiar o e-mail -->
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <!-- =========================================================
+       LIGHTBOX DA GALERIA (elemento <dialog> nativo)
+       ========================================================= -->
+  <dialog class="lightbox" aria-label="Visualização ampliada da foto">
+    <button class="lightbox__close icon-btn" type="button" aria-label="Fechar"><svg class="icon"><use href="#i-x"/></svg></button>
+    <button class="lightbox__nav lightbox__nav--prev icon-btn" type="button" aria-label="Foto anterior"><svg class="icon"><use href="#i-left"/></svg></button>
+    <figure class="lightbox__stage">
+      <div class="lightbox__media"></div>
+      <figcaption class="lightbox__caption">
+        <span class="lightbox__text"></span>
+        <span class="lightbox__count mono"></span>
+      </figcaption>
+    </figure>
+    <button class="lightbox__nav lightbox__nav--next icon-btn" type="button" aria-label="Próxima foto"><svg class="icon"><use href="#i-right"/></svg></button>
+  </dialog>
+</body>
+</html>

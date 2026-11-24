@@ -1,0 +1,15 @@
+# Site estático: HTML, CSS e JS puro, sem etapa de build.
+[build]
+  publish = "."
+
+# Cache longo para fotos; CSS/JS revalidam para refletir edições rapidamente.
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
