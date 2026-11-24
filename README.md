@@ -27,24 +27,7 @@ assets/img/         Suas fotografias (veja assets/img/LEIA-ME.md)
 netlify.toml        Publicação estática no Netlify
 ```
 
-## Como personalizar
-
-1. **Fotos:** coloque os arquivos em `assets/img/` com os nomes listados em `assets/img/LEIA-ME.md`
-   (`perfil.jpg`, `sobre-mim.jpg`, `academia.jpg`, `galeria-01.jpg`…). Sem a foto, o site mostra um
-   placeholder com o nome exato do arquivo esperado.
-2. **Links e e-mail:** edite o objeto `PERFIL` no início de `js/script.js`.
-3. **Textos:** procure os comentários `EDITE` no `index.html`.
-4. **Cores e fontes:** altere as variáveis em `:root` (tema claro) e `[data-theme="escuro"]` no `css/style.css`.
-5. **Trechos de código da seção Tech:** edite o objeto `TRECHOS` em `js/script.js`.
-
 ## Rodando localmente
 
 Não há dependências. Abra o `index.html` no navegador ou sirva a pasta com qualquer servidor estático, por exemplo:
 
-```bash
-npx serve .
-# ou
-python3 -m http.server 8000
-```
-
-Para emular o ambiente do Netlify: `netlify dev`.
